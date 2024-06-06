@@ -30,7 +30,7 @@ const Home = () => {
       })
       .catch((err) => {
         console.warn(err);
-        alert('Ошибка с подгрузкой данных');
+        alert('Ошибка при загрузке данных');
       });
     window.scrollTo(0, 0);
   }, [categoryId, sortType, sortAscDesc]);
