@@ -8,7 +8,7 @@ const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
-  const [sortAscDesc, setSortAscDesc] = React.useState('asc');
+  const [sortAscDesc, setSortAscDesc] = React.useState('desc');
   const [sortType, setSortType] = React.useState({
     name: 'рейтингу',
     sortProperty: 'rating',
@@ -16,6 +16,7 @@ const Home = () => {
 
   React.useEffect(() => {
     setIsLoading(true);
+
     fetch(
       `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?${
         categoryId === 0 ? '' : `category=${categoryId}`
