@@ -7,9 +7,20 @@ import ItemsList from '../components/ItemsList';
 const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [categoryId, setCategoryId] = React.useState(0);
+  const [sortAscDesc, setSortAscDesc] = React.useState('asc');
+  const [sortType, setSortType] = React.useState({
+    name: 'рейтингу',
+    sortProperty: 'rating',
+  });
 
   React.useEffect(() => {
-    fetch('https://6637bb3c288fedf693812f99.mockapi.io/pizza-react')
+    setIsLoading(true);
+    fetch(
+      `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?${
+        categoryId === 0 ? '' : `category=${categoryId}`
+      }&sortBy=${sortType.sortProperty}&order=${sortAscDesc}`,
+    )
       .then((res) => {
         return res.json();
       })
@@ -22,14 +33,19 @@ const Home = () => {
         alert('Ошибка с подгрузкой данных');
       });
     window.scrollTo(0, 0);
-  }, []);
+  }, [categoryId, sortType, sortAscDesc]);
 
   return (
     <>
       <div className="container">
         <div className="content__top">
-          <Categories />
-          <Sort />
+          <Categories categoryId={categoryId} onClickCategory={(id) => setCategoryId(id)} />
+          <Sort
+            sortType={sortType}
+            onClickSortType={(filter) => setSortType(filter)}
+            sortAscDesc={sortAscDesc}
+            onClickSortAscDesc={setSortAscDesc}
+          />
         </div>
         <ItemsList isLoading={isLoading} list={items} />
       </div>
