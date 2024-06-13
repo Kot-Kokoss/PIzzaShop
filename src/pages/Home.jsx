@@ -4,7 +4,7 @@ import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import ItemsList from '../components/ItemsList';
 
-const Home = () => {
+const Home = ({ searchValue }) => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
@@ -48,7 +48,7 @@ const Home = () => {
             onClickSortAscDesc={setSortAscDesc}
           />
         </div>
-        <ItemsList isLoading={isLoading} list={items} />
+        <ItemsList searchValue={searchValue} isLoading={isLoading} list={items} />
       </div>
     </>
   );
