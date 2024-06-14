@@ -3,11 +3,13 @@ import React from 'react';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import ItemsList from '../components/ItemsList';
+import Pagination from '../components/Pagination';
 
 const Home = ({ searchValue }) => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const [sortAscDesc, setSortAscDesc] = React.useState('desc');
   const [sortType, setSortType] = React.useState({
     name: 'рейтингу',
@@ -18,7 +20,7 @@ const Home = ({ searchValue }) => {
     setIsLoading(true);
 
     fetch(
-      `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?${
+      `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?page=${currentPage}&limit=4&${
         categoryId === 0 ? '' : `category=${categoryId}`
       }&sortBy=${sortType.sortProperty}&order=${sortAscDesc}`,
     )
@@ -34,7 +36,7 @@ const Home = ({ searchValue }) => {
         alert('Ошибка при загрузке данных');
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, sortAscDesc]);
+  }, [categoryId, sortType, sortAscDesc, currentPage]);
 
   return (
     <>
@@ -49,6 +51,7 @@ const Home = ({ searchValue }) => {
           />
         </div>
         <ItemsList searchValue={searchValue} isLoading={isLoading} list={items} />
+        <Pagination onChangePage={setCurrentPage} />
       </div>
     </>
   );
