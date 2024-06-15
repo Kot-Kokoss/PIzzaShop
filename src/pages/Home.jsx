@@ -5,7 +5,7 @@ import Sort from '../components/Sort';
 import ItemsList from '../components/ItemsList';
 import Pagination from '../components/Pagination';
 
-const Home = ({ searchValue }) => {
+const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
@@ -50,7 +50,7 @@ const Home = ({ searchValue }) => {
             onClickSortAscDesc={setSortAscDesc}
           />
         </div>
-        <ItemsList searchValue={searchValue} isLoading={isLoading} list={items} />
+        <ItemsList isLoading={isLoading} list={items} />
         <Pagination onChangePage={setCurrentPage} />
       </div>
     </>

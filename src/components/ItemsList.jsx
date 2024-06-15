@@ -1,8 +1,10 @@
 import React from 'react';
 import PizzaItem from './PizzaItem';
 import { Skeleton } from './PizzaItem/Skeleton';
+import { SearchContext } from '../App';
 
-function ItemsList({ searchValue, isLoading, list }) {
+function ItemsList({ isLoading, list }) {
+  const { searchValue } = React.useContext(SearchContext);
   // static metod
   const pizzas = list
     .filter((obj) => {
