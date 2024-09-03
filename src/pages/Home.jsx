@@ -20,7 +20,7 @@ const Home = () => {
     setIsLoading(true);
 
     fetch(
-      `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?page=${currentPage}&limit=4&${
+      `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?page=${currentPage}&limit=8&${
         categoryId === 0 ? '' : `category=${categoryId}`
       }&sortBy=${sortType.sortProperty}&order=${sortAscDesc}`,
     )
