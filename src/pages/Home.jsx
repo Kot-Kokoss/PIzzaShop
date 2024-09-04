@@ -5,16 +5,16 @@ import Sort from '../components/Sort';
 import ItemsList from '../components/ItemsList';
 import Pagination from '../components/Pagination';
 
+import { useSelector } from 'react-redux';
+
 const Home = () => {
+  const categoryId = useSelector((state) => state.filter.categoryId);
+  const sortAscDesc = useSelector((state) => state.filter.sortAscDesc);
+  const sortType = useSelector((state) => state.filter.sortType);
+
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryId, setCategoryId] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [sortAscDesc, setSortAscDesc] = React.useState('desc');
-  const [sortType, setSortType] = React.useState({
-    name: 'рейтингу',
-    sortProperty: 'rating',
-  });
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -42,13 +42,8 @@ const Home = () => {
     <>
       <div className="container">
         <div className="content__top">
-          <Categories categoryId={categoryId} onClickCategory={(id) => setCategoryId(id)} />
-          <Sort
-            sortType={sortType}
-            onClickSortType={(filter) => setSortType(filter)}
-            sortAscDesc={sortAscDesc}
-            onClickSortAscDesc={setSortAscDesc}
-          />
+          <Categories />
+          <Sort />
         </div>
         <ItemsList isLoading={isLoading} list={items} />
         <Pagination onChangePage={setCurrentPage} />

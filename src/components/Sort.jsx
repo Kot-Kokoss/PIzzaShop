@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSortAscDesc, setSortType } from '../redux/slices/filterSlice';
 
-export default function Sort({ sortType, onClickSortType, sortAscDesc, onClickSortAscDesc }) {
+export default function Sort() {
   const [popupOpen, setPopupOpen] = useState(false);
+
+  const sortAscDesc = useSelector((state) => state.filter.sortAscDesc);
+  const sortType = useSelector((state) => state.filter.sortType);
+
+  const dispatch = useDispatch();
 
   const PopupFilters = [
     { name: 'популярности', sortProperty: 'rating' },
@@ -14,7 +21,7 @@ export default function Sort({ sortType, onClickSortType, sortAscDesc, onClickSo
       <div className="sort__label">
         <div
           className="sort__btn"
-          onClick={() => onClickSortAscDesc(sortAscDesc === 'asc' ? 'desc' : 'asc')}>
+          onClick={() => dispatch(setSortAscDesc(sortAscDesc === 'asc' ? 'desc' : 'asc'))}>
           {sortAscDesc === 'desc' ? (
             <svg
               width="10"
@@ -53,7 +60,7 @@ export default function Sort({ sortType, onClickSortType, sortAscDesc, onClickSo
                 key={i}
                 onClick={() => {
                   setPopupOpen(false);
-                  onClickSortType(filter);
+                  dispatch(setSortType(filter));
                 }}
                 className={filter.sortProperty === sortType.sortProperty ? 'active' : ''}>
                 {filter.name}
