@@ -1,5 +1,5 @@
 import React from 'react';
-
+import axios from 'axios';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import ItemsList from '../components/ItemsList';
@@ -19,21 +19,32 @@ const Home = () => {
   React.useEffect(() => {
     setIsLoading(true);
 
-    fetch(
-      `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?page=${currentPage}&limit=8&${
-        categoryId === 0 ? '' : `category=${categoryId}`
-      }&sortBy=${sortType.sortProperty}&order=${sortAscDesc}`,
-    )
+    // fetch(
+    //   `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?page=${currentPage}&limit=8&${
+    //     categoryId === 0 ? '' : `category=${categoryId}`
+    //   }&sortBy=${sortType.sortProperty}&order=${sortAscDesc}`,
+    // )
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((json) => {
+    //     setItems(json);
+    //     setIsLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     console.warn(err);
+    //     alert('Ошибка при загрузке данных');
+    //   });
+
+    axios
+      .get(
+        `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?page=${currentPage}&limit=8&${
+          categoryId === 0 ? '' : `category=${categoryId}`
+        }&sortBy=${sortType.sortProperty}&order=${sortAscDesc}`,
+      )
       .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        setItems(json);
+        setItems(res.data);
         setIsLoading(false);
-      })
-      .catch((err) => {
-        console.warn(err);
-        alert('Ошибка при загрузке данных');
       });
     window.scrollTo(0, 0);
   }, [categoryId, sortType, sortAscDesc, currentPage]);
