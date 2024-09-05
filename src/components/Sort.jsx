@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSortAscDesc, setSortType } from '../redux/slices/filterSlice';
 
+export const PopupFilters = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'title' },
+];
+
 export default function Sort() {
   const [popupOpen, setPopupOpen] = useState(false);
 
@@ -9,12 +15,6 @@ export default function Sort() {
   const sortType = useSelector((state) => state.filter.sortType);
 
   const dispatch = useDispatch();
-
-  const PopupFilters = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'title' },
-  ];
 
   return (
     <div className="sort">
