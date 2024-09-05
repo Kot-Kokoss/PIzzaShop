@@ -5,36 +5,23 @@ import Sort from '../components/Sort';
 import ItemsList from '../components/ItemsList';
 import Pagination from '../components/Pagination';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentPage } from '../redux/slices/filterSlice';
 
 const Home = () => {
-  const categoryId = useSelector((state) => state.filter.categoryId);
-  const sortAscDesc = useSelector((state) => state.filter.sortAscDesc);
-  const sortType = useSelector((state) => state.filter.sortType);
+  const { categoryId, sortAscDesc, sortType, currentPage } = useSelector((state) => state.filter);
+
+  const dispatch = useDispatch();
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
+
+  const onChangePage = (number) => {
+    dispatch(setCurrentPage(number));
+  };
 
   React.useEffect(() => {
     setIsLoading(true);
-
-    // fetch(
-    //   `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?page=${currentPage}&limit=8&${
-    //     categoryId === 0 ? '' : `category=${categoryId}`
-    //   }&sortBy=${sortType.sortProperty}&order=${sortAscDesc}`,
-    // )
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((json) => {
-    //     setItems(json);
-    //     setIsLoading(false);
-    //   })
-    //   .catch((err) => {
-    //     console.warn(err);
-    //     alert('Ошибка при загрузке данных');
-    //   });
 
     axios
       .get(
@@ -57,7 +44,7 @@ const Home = () => {
           <Sort />
         </div>
         <ItemsList isLoading={isLoading} list={items} />
-        <Pagination onChangePage={setCurrentPage} />
+        <Pagination currentPage={currentPage} onChangePage={onChangePage} />
       </div>
     </>
   );
