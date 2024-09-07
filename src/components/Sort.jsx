@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSortAscDesc, setSortType } from '../redux/slices/filterSlice';
 
@@ -9,15 +9,29 @@ export const PopupFilters = [
 ];
 
 export default function Sort() {
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [popupOpen, setPopupOpen] = React.useState(false);
 
   const sortAscDesc = useSelector((state) => state.filter.sortAscDesc);
   const sortType = useSelector((state) => state.filter.sortType);
-
+  const sortRef = React.useRef();
   const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      const path = event.composedPath();
+      if (!path.includes(sortRef.current)) {
+        setPopupOpen(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <div
           className="sort__btn"
