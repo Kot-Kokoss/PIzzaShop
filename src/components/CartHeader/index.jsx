@@ -1,6 +1,14 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { clearItems } from '../../redux/slices/cartSlice';
 
 const CartHeader = () => {
+  const dispath = useDispatch();
+
+  const onClickClear = () => {
+    dispath(clearItems());
+  };
+
   return (
     <>
       <div className="cart__top">
@@ -35,7 +43,7 @@ const CartHeader = () => {
           </svg>
           Корзина
         </h2>
-        <div className="cart__clear">
+        <div className="cart__clear" onClick={onClickClear}>
           <svg
             width="20"
             height="20"
