@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import EmptyCart from '../components/EmptyCart';
 import FullCart from '../components/FullCart';
 
