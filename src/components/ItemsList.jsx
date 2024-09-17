@@ -3,9 +3,9 @@ import PizzaItem from './PizzaItem';
 import { Skeleton } from './PizzaItem/Skeleton';
 import { SearchContext } from '../App';
 
-function ItemsList({ isLoading, list }) {
+function ItemsList({ status, list }) {
   const { searchValue } = React.useContext(SearchContext);
-  // static metod
+
   const pizzas = list
     .filter((obj) => {
       if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
@@ -15,12 +15,18 @@ function ItemsList({ isLoading, list }) {
     })
     .map((item) => <PizzaItem key={item.id} {...item} />);
 
+  const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
   return (
     <>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading ? [...new Array(6)].map((_, i) => <Skeleton key={i} />) : pizzas}
-      </div>
+      {status === 'rejected' ? (
+        <div className="content__error-info">
+          <h2>Ничего не найдено 😕</h2>
+          <p>Произошла ошибка загрузки, повторите позже.</p>
+        </div>
+      ) : (
+        <div className="content__items">{status === 'pending' ? skeletons : pizzas}</div>
+      )}
     </>
   );
 }

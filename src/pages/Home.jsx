@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +8,7 @@ import ItemsList from '../components/ItemsList';
 import Pagination from '../components/Pagination';
 
 import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,27 +17,15 @@ const Home = () => {
   const isMounted = React.useRef(false);
 
   const { categoryId, sortAscDesc, sortType, currentPage } = useSelector((state) => state.filter);
-
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const { items, status } = useSelector((state) => state.pizza);
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
-
-    axios
-      .get(
-        `https://6637bb3c288fedf693812f99.mockapi.io/pizza-react?page=${currentPage}&limit=8&${
-          categoryId === 0 ? '' : `category=${categoryId}`
-        }&sortBy=${sortType.sortProperty}&order=${sortAscDesc}`,
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+  const getPizzas = async (params) => {
+    const { categoryId, sortAscDesc, sortType, currentPage } = params;
+    dispatch(fetchPizzas({ categoryId, sortAscDesc, sortType, currentPage }));
   };
 
   React.useEffect(() => {
@@ -60,7 +48,7 @@ const Home = () => {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas({ categoryId, sortType, sortAscDesc, currentPage });
     }
 
     isSearch.current = false;
@@ -86,7 +74,7 @@ const Home = () => {
           <Categories />
           <Sort />
         </div>
-        <ItemsList isLoading={isLoading} list={items} />
+        <ItemsList status={status} list={items} />
         <Pagination currentPage={currentPage} onChangePage={onChangePage} />
       </div>
     </>

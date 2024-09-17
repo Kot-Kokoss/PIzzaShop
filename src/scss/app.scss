@@ -91,6 +91,22 @@ body {
       margin: 0;
     }
   }
+
+  .content__error-info {
+    margin: 60px auto;
+    width: 500px;
+    text-align: center;
+
+    h2 {
+      font-weight: 700;
+      font-size: 28px;
+    }
+
+    p {
+      font-size: 20px;
+    }
+
+  }
 }
 
 .cart {
@@ -118,6 +134,8 @@ body {
         stroke-width: 1.9;
       }
     }
+
+    
   }
 
   &__clear {
