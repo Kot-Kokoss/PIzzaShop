@@ -7,8 +7,8 @@ import Sort, { PopupFilters } from '../components/Sort';
 import ItemsList from '../components/ItemsList';
 import Pagination from '../components/Pagination';
 
-import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ const Home = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { categoryId, sortAscDesc, sortType, currentPage } = useSelector((state) => state.filter);
-  const { items, status } = useSelector((state) => state.pizza);
+  const { categoryId, sortAscDesc, sortType, currentPage } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizza);
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));

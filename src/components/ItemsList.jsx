@@ -1,10 +1,11 @@
 import React from 'react';
 import PizzaItem from './PizzaItem';
 import { Skeleton } from './PizzaItem/Skeleton';
-import { SearchContext } from '../App';
+import { useSelector } from 'react-redux';
+import { selectFilter } from '../redux/slices/filterSlice';
 
 function ItemsList({ status, list }) {
-  const { searchValue } = React.useContext(SearchContext);
+  const { searchValue } = useSelector(selectFilter);
 
   const pizzas = list
     .filter((obj) => {
