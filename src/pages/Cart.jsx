@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
 
 const Cart = () => {
-  const isEmpty = useSelector(selectCart.items.length);
+  const isEmpty = useSelector(selectCart).items.length;
+  console.log(isEmpty);
   return <>{isEmpty ? <FullCart /> : <EmptyCart />}</>;
 };
 
